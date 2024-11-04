@@ -4,7 +4,7 @@
 
 This repository is the Software Development Kit (SDK) for the [Unitree L2](https://www.unitree.com/LiDAR) LiDAR.
 
-You can use the code interfaces in this repository to obtain point cloud and IMU data from our LiDAR, as well as set and get relevant configuration parameters of the radar.
+You can use the code interfaces in this repository to obtain point cloud and IMU data from our LiDAR, as well as set and get relevant configuration parameters of the lidar.
 
 We provide several common interfaces for the LiDAR:
 - The original C++ based SDK: [unitree_lidar_sdk](./unitree_lidar_sdk/README.md)
@@ -65,14 +65,14 @@ Setting the working mode is implemented through a `uint32_t` integer variable, w
 |1|Switch between 3D and 2D measurement modes|3D measurement mode|2D measurement mode|
 |2|Enable or disable IMU|Enable IMU|Disable IMU|
 |3|Switch between Ethernet mode and serial mode|Ethernet mode|Serial mode|
-|4|Switch between radar power-on default start mode|Power on and start automatically|Power on and wait for start command without rotation|
+|4|Switch between lidar power-on default start mode|Power on and start automatically|Power on and wait for start command without rotation|
 |5-31|Reserved|Reserved|Reserved|
 
 The common usage mode is standard FOV + 3D measurement + enable IMU + power on self-start, which means these bit positions are all kept at 0. We only need to determine whether to use Ethernet connection mode or serial connection mode. For example, in the following sample program,
 - If using Ethernet connection mode, configure the work mode to 0 (i.e., all bit positions of the integer variable are equal to 0)
 - If using serial connection mode, configure the work mode to 8 (i.e., the third bit position of the integer variable is equal to 1, and the other 0-31 bit positions are all equal to 0)
 
-The default factory radar work mode is 0, i.e., Ethernet communication mode.
+The default factory lidar work mode is 0, i.e., Ethernet communication mode.
 
 ### 3.3 Running with Ethernet
 
@@ -131,7 +131,7 @@ If you need to modify the default IP address of the LiDAR, you can refer to the 
 
 ### 3.4 Running with Serial Port
 
-Note that the LiDAR is shipped with Ethernet communication mode by default. If you have not yet switched the communication mode to serial communication mode, you will need to use an Ethernet connection to communicate with the LiDAR first, so that you can then switch its communication method to serial communication mode. You can use our host computer to make the switch, or you can also refer to section [4.2], use the default Ethernet communication example program `example_lidar_udp.cpp` to communicate with the radar first, and set the radar work mode to serial communication mode (`workMode=8`), then power off and restart the LiDAR.
+Note that the LiDAR is shipped with Ethernet communication mode by default. If you have not yet switched the communication mode to serial communication mode, you will need to use an Ethernet connection to communicate with the LiDAR first, so that you can then switch its communication method to serial communication mode. You can use our host computer to make the switch, or you can also refer to section [4.2], use the default Ethernet communication example program `example_lidar_udp.cpp` to communicate with the lidar first, and set the lidar work mode to serial communication mode (`workMode=8`), then power off and restart the LiDAR.
 
 After confirming that the current LiDAR is in serial communication mode, we connect the LiDAR to the computer using a serial cable, and then confirm the serial port name of the LiDAR, which defaults to the following value:
 ```
