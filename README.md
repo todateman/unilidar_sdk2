@@ -1,5 +1,7 @@
 # Unilidar SDK2
 
+[中文版 | Chinese](./README_CN.md)
+
 ## 1. Introduction
 
 This repository is the Software Development Kit (SDK) for the [Unitree L2](https://www.unitree.com/LiDAR) LiDAR.
@@ -17,13 +19,13 @@ We provide several common interfaces for the LiDAR:
   <img src="./docs/lidar_frame_definition.jpg" width="800">
 </div>
 
-The coordinate system of this LiDAR is defined as shown in the above figure, which meets the definition of a right-handed coordinate system. Let the LiDAR point cloud coordinate system be $\{L\}$, and the IMU coordinate system be $\{I\}$.
+The coordinate system of this LiDAR is defined as shown in the above figure, which meets the definition of a right-handed coordinate system. Let the LiDAR point cloud coordinate system be L, and the IMU coordinate system be I.
 
 The origin of the LiDAR point cloud coordinate system is located at the center of the bottom mounting surface of the LiDAR. Its +X-axis is opposite to the direction of the bottom cable outlet, its +Y-axis is obtained by rotating the +X-axis counterclockwise by 90 degrees, and its +Z-axis is perpendicular to the bottom surface.
 
 The three coordinate axes of the IMU coordinate system are parallel to the corresponding coordinate axes of the point cloud coordinate system, and the two only have a translation of the origin position. The origin of the IMU coordinate system in the LiDAR point cloud coordinate system is (in meters): [-0.007698, -0.014655, 0.00667].
 
-According to the standard transformation matrix method, the pose transformation from the LiDAR point cloud coordinate system $\{L\}$ to the IMU coordinate system $\{I\}$ is:
+According to the standard transformation matrix method, the pose transformation from the LiDAR point cloud coordinate system L to the IMU coordinate system I is:
 
 $$
 T_{LI} =
