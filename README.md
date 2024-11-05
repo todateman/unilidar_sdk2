@@ -24,6 +24,7 @@ The origin of the LiDAR point cloud coordinate system is located at the center o
 The three coordinate axes of the IMU coordinate system are parallel to the corresponding coordinate axes of the point cloud coordinate system, and the two only have a translation of the origin position. The origin of the IMU coordinate system in the LiDAR point cloud coordinate system is (in meters): [-0.007698, -0.014655, 0.00667].
 
 According to the standard transformation matrix method, the pose transformation from the LiDAR point cloud coordinate system $\{L\}$ to the IMU coordinate system $\{I\}$ is:
+
 $$
 T_{LI} =
 \begin{bmatrix}
