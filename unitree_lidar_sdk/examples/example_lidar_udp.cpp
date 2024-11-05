@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     // Set lidar work mode
     uint32_t workMode = 0;
-    std::cout << "Set Lidar work mode to: " << workMode << std::endl;
+    std::cout << "set Lidar work mode to: " << workMode << std::endl;
     lreader->setLidarWorkMode(workMode);
     sleep(1);
 

@@ -7,3 +7,6 @@
 - Update README.md
 - Add library file for aarch environment
 - Add support for ROS and ROS2
+
+## v2.0.2 (2024.11.05)
+- Add support for start and stop lidar rotation

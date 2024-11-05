@@ -48,10 +48,11 @@ namespace unitree_lidar_sdk{
 #define CMD_CONFIG_RESET 7
 
 #define USER_CMD_RESET_TYPE 1
-#define USER_CMD_STANDBY_TYPE 2
+#define USER_CMD_STANDBY_TYPE 2     // value 0: start; value 1: standby
 #define USER_CMD_VERSION_GET 3
 #define USER_CMD_LATENCY_TYPE 4
 #define USER_CMD_CONFIG_RESET 5
+#define USER_CMD_CONFIG_GET 6
 
 #define ACK_SUCCESS 1
 #define ACK_CRC_ERROR 2
@@ -389,8 +390,8 @@ typedef struct
  */
 typedef struct 
 {
-    uint32_t user_cmd_type; //   0:null, 1:standby
-    uint32_t user_cmd_value;
+    uint32_t cmd_type; //   0:null, 1:standby
+    uint32_t cmd_value;
 }LidarUserCtrlCmd;
 
 /**

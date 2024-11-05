@@ -92,12 +92,14 @@ The sample output is as follows:
 ```
 $ ../bin/example_lidar_udp 
 Unilidar initialization succeed!
-Set Lidar work mode to: 0
+set Lidar work mode to: 0
 lidar hardware version = 1.1.1.1
 lidar firmware version = 2.3.3.0
-lidar sdk version = 2.0.0
-dirtyPercentage = 0.000000 %
-timeDelay = 0.002421
+lidar sdk version = 2.0.2
+stop lidar rotation ...
+start lidar rotation ...
+dirty percentage = 1.616020 %
+time delay (second) = 0.001880
 An IMU msg is parsed!
     system stamp = 1730191291.3044135571
     seq = 87, stamp = 1730191291.304411172
@@ -149,12 +151,14 @@ The sample output is as follows:
 ```
 $ ../bin/example_lidar_serial
 Unilidar initialization succeed!
-Set Lidar work mode to: 0
+set Lidar work mode to: 0
 lidar hardware version = 1.1.1.1
 lidar firmware version = 2.3.3.0
-lidar sdk version = 2.0.0
-dirtyPercentage = 0.000000 %
-timeDelay = 0.002421
+lidar sdk version = 2.0.2
+stop lidar rotation ...
+start lidar rotation ...
+dirty percentage = 1.363776 %
+time delay (second) = 0.002044
 An IMU msg is parsed!
     system stamp = 1730191291.3044135571
     seq = 87, stamp = 1730191291.304411172

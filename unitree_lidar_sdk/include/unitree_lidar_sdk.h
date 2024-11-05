@@ -124,6 +124,16 @@ public:
      * @param stamp_nsec nanosecond
      */
     virtual void syncLidarTimeStamp() = 0;
+
+    /**
+     * @brief Stop lidar rotation
+     */
+    virtual void stopLidar() = 0;
+
+    /**
+     * @brief Start lidar rotation
+     */
+    virtual void startLidar() = 0;
 };
 
 /**

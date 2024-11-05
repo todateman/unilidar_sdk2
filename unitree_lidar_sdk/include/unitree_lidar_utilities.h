@@ -147,12 +147,12 @@ inline void parseFromPacketToPointCloud(
     const float cos_beta_cos_xi = cos_beta * cos_xi;
 
     // cloud init
-    double stamp_scan = packet.data.info.stamp.sec + packet.data.info.stamp.nsec / 1.0e9;
     if (use_system_timestamp)
     {
-        stamp_scan = getSystemTimeStamp() - scan_period;
+        cloud.stamp = getSystemTimeStamp() - scan_period;
+    }else{
+        cloud.stamp = packet.data.info.stamp.sec + packet.data.info.stamp.nsec / 1.0e9;
     }
-    cloud.stamp = stamp_scan;
     cloud.id = 1;
     cloud.ringNum = 1;
     cloud.points.clear();
@@ -242,12 +242,12 @@ inline void parseFromPacketPointCloud2D(
     const float scan_period = packet.data.scan_period;
 
     // cloud init
-    double stamp_scan = packet.data.info.stamp.sec + packet.data.info.stamp.nsec / 1.0e9;
     if (use_system_timestamp)
     {
-        stamp_scan = getSystemTimeStamp() - scan_period;
+        cloud.stamp = getSystemTimeStamp() - scan_period;
+    }else{
+        cloud.stamp = packet.data.info.stamp.sec + packet.data.info.stamp.nsec / 1.0e9;
     }
-    cloud.stamp = stamp_scan;
     cloud.id = 1;
     cloud.ringNum = 1;
     cloud.points.clear();

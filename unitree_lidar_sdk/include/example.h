@@ -26,16 +26,21 @@ void exampleProcess(UnitreeLidarReader *lreader){
               << "lidar sdk version = " << versionSDK << std::endl;
     sleep(1);
 
-    for (int i = 0; i < 100; i++){
-        lreader->runParse();
-    }
+    // Stop and start lidar again
+    std::cout << "stop lidar rotation ..." << std::endl;
+    lreader->stopLidar();
+    sleep(3);
+
+    std::cout << "start lidar rotation ..." << std::endl;
+    lreader->startLidar();
+    sleep(3);
 
     // Check lidar dirty percentange
     float dirtyPercentage;
     while(!lreader->getDirtyPercentage(dirtyPercentage)){
         lreader->runParse();
     }
-    printf("dirtyPercentage = %f %%\n", dirtyPercentage);
+    printf("dirty percentage = %f %%\n", dirtyPercentage);
     sleep(1);
 
     // Get time delay
@@ -43,7 +48,7 @@ void exampleProcess(UnitreeLidarReader *lreader){
     while(!lreader->getTimeDelay(timeDelay)){
         lreader->runParse();
     }
-    printf("timeDelay = %f\n", timeDelay);
+    printf("time delay (second) = %f\n", timeDelay);
     sleep(1);
 
     // Parse PointCloud and IMU data
