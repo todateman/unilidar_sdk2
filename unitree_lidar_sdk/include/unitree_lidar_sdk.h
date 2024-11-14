@@ -128,12 +128,12 @@ public:
     /**
      * @brief Stop lidar rotation
      */
-    virtual void stopLidar() = 0;
+    virtual void stopLidarRotation() = 0;
 
     /**
      * @brief Start lidar rotation
      */
-    virtual void startLidar() = 0;
+    virtual void startLidarRotation() = 0;
 };
 
 /**

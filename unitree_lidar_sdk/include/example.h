@@ -28,11 +28,11 @@ void exampleProcess(UnitreeLidarReader *lreader){
 
     // Stop and start lidar again
     std::cout << "stop lidar rotation ..." << std::endl;
-    lreader->stopLidar();
+    lreader->stopLidarRotation();
     sleep(3);
 
     std::cout << "start lidar rotation ..." << std::endl;
-    lreader->startLidar();
+    lreader->startLidarRotation();
     sleep(3);
 
     // Check lidar dirty percentange

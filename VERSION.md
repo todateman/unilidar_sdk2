@@ -10,3 +10,7 @@
 
 ## v2.0.2 (2024.11.05)
 - Add support for start and stop lidar rotation
+
+## v2.0.3 (2024.11.14)
+- Add udp connect information
+- Modify `startLidar()` to `startLidarRotation()`, modify `stopLidar()` to `stopLidarRotation()`
