@@ -14,3 +14,6 @@
 ## v2.0.3 (2024.11.14)
 - Add udp connect information
 - Modify `startLidar()` to `startLidarRotation()`, modify `stopLidar()` to `stopLidarRotation()`
+
+## v2.0.4 (2024.12.10)
+- Solve the problem of not able to start up lidar when it's in STANDBY mode

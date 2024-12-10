@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
         printf("Unilidar initialization succeed!\n");
     }
 
+    lreader->startLidarRotation();
+    sleep(1);
+
     // Set lidar work mode
     uint32_t workMode = 0;
     std::cout << "set Lidar work mode to: " << workMode << std::endl;
