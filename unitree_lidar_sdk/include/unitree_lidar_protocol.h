@@ -355,6 +355,30 @@ typedef struct
     FrameTail tail;
 }LidarIpAddressConfigPacket;
 
+/////////////////////////////////////////////////////////////////////////
+// MAC ADDRESS CONFIG PACKET
+/////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Lidar MAC address Config
+ * @note 8 bytes
+ */
+typedef struct 
+{
+    uint8_t mac[6];
+    uint8_t reserve[2];
+}LidarMacAddressConfig;
+
+/**
+ * @brief Lidar MAC address config packet
+ * @note 32 bytes
+ */
+typedef struct
+{
+    FrameHeader header;
+    LidarMacAddressConfig data;
+    FrameTail tail;
+}LidarMacAddressConfigPacket;
 
 /////////////////////////////////////////////////////////////////////////
 // WORK MODE PACKET

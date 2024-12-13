@@ -134,6 +134,18 @@ public:
      * @brief Start lidar rotation
      */
     virtual void startLidarRotation() = 0;
+
+    /**
+     * @brief Set the Lidar Ip Address Config 
+     * @param config 
+     */
+    virtual void setLidarIpAddressConfig(LidarIpAddressConfig config) = 0;
+
+    /**
+     * @brief Set the Lidar Mac Address Config
+     * @param config 
+     */
+    virtual void setLidarMacAddressConfig(LidarMacAddressConfig config) = 0;
 };
 
 /**

@@ -17,3 +17,7 @@
 
 ## v2.0.4 (2024.12.10)
 - Solve the problem of not able to start up lidar when it's in STANDBY mode
+
+## v2.0.5 (2024.12.13)
+- Add function `setLidarIpAddressConfig()` to set lidar ip address
+- Add function `setLidarMacAddressConfig()` to set lidar mac address
