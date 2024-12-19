@@ -21,3 +21,6 @@
 ## v2.0.5 (2024.12.13)
 - Add function `setLidarIpAddressConfig()` to set lidar ip address
 - Add function `setLidarMacAddressConfig()` to set lidar mac address
+
+## v2.0.6 (2024.12.13)
+- Add function to get buffer size

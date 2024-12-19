@@ -146,6 +146,16 @@ public:
      * @param config 
      */
     virtual void setLidarMacAddressConfig(LidarMacAddressConfig config) = 0;
+
+    /**
+     * @brief Get the Buffer Cached Size
+     */
+    virtual size_t getBufferCachedSize() const = 0;
+
+    /**
+     * @brief Get the Buffer Read Size
+     */
+    virtual size_t getBufferReadSize() const = 0;
 };
 
 /**
