@@ -22,3 +22,8 @@ add_executable(example_lidar_serial
     examples/example_lidar_serial.cpp
 )
 target_link_libraries(example_lidar_serial  libunitree_lidar_sdk.a  )
+
+add_executable(set_ip_address
+    examples/set_ip_address.cpp
+)
+target_link_libraries(set_ip_address  libunitree_lidar_sdk.a )

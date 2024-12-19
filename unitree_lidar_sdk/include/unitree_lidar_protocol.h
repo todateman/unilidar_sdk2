@@ -340,8 +340,10 @@ typedef struct
 {
     uint8_t lidar_ip[4];                   // UDP local ip
     uint8_t user_ip[4];                    // UDP remote ip
-    uint16_t lidar_port;                     // UDP local port
-    uint16_t user_port;                      // UDP remote port
+    uint8_t gateway[4];                    // Gate way
+    uint8_t subnet_mask[4];                // Subnet mask
+    uint16_t lidar_port;                   // UDP local port
+    uint16_t user_port;                    // UDP remote port
 }LidarIpAddressConfig;
 
 /**
