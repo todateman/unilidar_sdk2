@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     config.user_ip[0] = 192;
     config.user_ip[1] = 168;
     config.user_ip[2] = 123;
-    config.user_ip[3] = 161;
+    config.user_ip[3] = 120;
 
     config.lidar_port = 6101;
     config.user_port = 6201;

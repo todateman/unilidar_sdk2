@@ -55,7 +55,7 @@ link_directories(
 set(EXTRA_LIBS 
   ${catkin_LIBRARIES} 
   ${PCL_LIBRARIES} 
-  libunitree_lidar_sdk.a
+  libunilidar_sdk2.a
 )
 
 add_executable(unitree_lidar_ros_node src/unitree_lidar_ros_node.cpp)

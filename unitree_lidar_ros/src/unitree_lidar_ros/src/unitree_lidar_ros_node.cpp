@@ -4,7 +4,7 @@
 
 #include "unitree_lidar_ros.h"
 
-using namespace unitree_lidar_sdk;
+using namespace unilidar_sdk2;
 
 int main(int argc, char **argv)
 {

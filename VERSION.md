@@ -27,3 +27,8 @@
 
 ## v2.0.7 (2024.12.19)
 - Solve the bug to set lidar ip address correctly.
+
+## v2.0.8 (2025.02.25)
+- Add function `resetLidar()` to restart lidar hardware
+- Modify namespace from `unitree_lidar_sdk` to `unilidar_sdk2`
+- Modify library file name from `libunitree_lidar_sdk.a` to `libunilidar_sdk2.a`

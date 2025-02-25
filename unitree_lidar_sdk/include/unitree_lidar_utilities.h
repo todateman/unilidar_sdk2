@@ -31,7 +31,7 @@ typedef unsigned __int64 uint64_t;
 #include "unitree_lidar_sdk_config.h"
 #include "unitree_lidar_protocol.h"
 
-namespace unitree_lidar_sdk{
+namespace unilidar_sdk2{
 
 ///////////////////////////////////////////////////////////////////////////////
 // CONSTANTS
@@ -129,7 +129,8 @@ inline void parseFromPacketToPointCloud(
     const LidarPointDataPacket &packet,
     bool use_system_timestamp = true,
     float range_min = 0,
-    float range_max = 100)
+    float range_max = 100
+    )
 {
     // scan info
     const int num_of_points = packet.data.point_num;

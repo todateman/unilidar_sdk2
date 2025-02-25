@@ -34,6 +34,10 @@ int main(int argc, char *argv[])
     std::cout << "set Lidar work mode to: " << workMode << std::endl;
     lreader->setLidarWorkMode(workMode);
     sleep(1);
+    
+    // Reset Lidar
+    lreader->resetLidar();
+    sleep(1);
 
     // Process
     exampleProcess(lreader);

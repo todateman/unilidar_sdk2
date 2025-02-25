@@ -42,7 +42,7 @@ add_executable(unitree_lidar_ros2_node src/unitree_lidar_ros2_node.cpp)
 target_link_libraries( unitree_lidar_ros2_node
   ${Boost_SYSTEM_LIBRARY}
   ${PCL_LIBRARIES}
-  libunitree_lidar_sdk.a
+  libunilidar_sdk2.a
 )
 
 ament_target_dependencies(

@@ -5,7 +5,7 @@
 #pragma once
 #include "unitree_lidar_utilities.h"
 
-namespace unitree_lidar_sdk{
+namespace unilidar_sdk2{
 
 /**
  * @brief Unitree Lidar Reader
@@ -128,6 +128,11 @@ public:
     /**
      * @brief Stop lidar rotation
      */
+    virtual void resetLidar() = 0;
+
+    /**
+     * @brief Stop lidar rotation
+     */
     virtual void stopLidarRotation() = 0;
 
     /**
@@ -164,4 +169,4 @@ public:
  */
 UnitreeLidarReader *createUnitreeLidarReader();
 
-} // end of namespace unitree_lidar_sdk
+} // end of namespace unilidar_sdk2

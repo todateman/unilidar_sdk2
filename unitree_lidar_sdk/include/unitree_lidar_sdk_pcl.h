@@ -41,7 +41,7 @@
 
 #include "unitree_lidar_sdk.h"
 
-using namespace unitree_lidar_sdk;
+using namespace unilidar_sdk2;
 
 /**
  * @brief PCL Point Type

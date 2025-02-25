@@ -10,7 +10,7 @@
 #include <string.h>
 
 #ifndef __EXTERN_C__
-namespace unitree_lidar_sdk{
+namespace unilidar_sdk2{
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
