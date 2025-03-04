@@ -32,3 +32,6 @@
 - Add function `resetLidar()` to restart lidar hardware
 - Modify namespace from `unitree_lidar_sdk` to `unilidar_sdk2`
 - Modify library file name from `libunitree_lidar_sdk.a` to `libunilidar_sdk2.a`
+
+## v2.0.9 (2025.03.04)
+- Add function `sendUserCtrlCmd()` to send `LidarUserCtrlCmd` to lidar

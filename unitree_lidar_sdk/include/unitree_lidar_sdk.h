@@ -114,6 +114,12 @@ public:
     virtual bool getDirtyPercentage(float &percentage) const = 0;
 
     /**
+     * @brief Send a user control command to lidar
+     * @param cmd 
+     */
+    virtual void sendUserCtrlCmd(LidarUserCtrlCmd cmd)= 0;
+
+    /**
      * @brief Set lidar work mode
      */
     virtual void setLidarWorkMode(uint32_t mode) = 0;
@@ -161,6 +167,8 @@ public:
      * @brief Get the Buffer Read Size
      */
     virtual size_t getBufferReadSize() const = 0;
+
+    
 };
 
 /**
