@@ -53,6 +53,7 @@ namespace unilidar_sdk2{
 #define USER_CMD_LATENCY_TYPE 4
 #define USER_CMD_CONFIG_RESET 5
 #define USER_CMD_CONFIG_GET 6
+#define USER_CMD_CONFIG_AUTO_STANDBY 7
 
 #define ACK_SUCCESS 1
 #define ACK_CRC_ERROR 2

@@ -35,3 +35,7 @@
 
 ## v2.0.9 (2025.03.04)
 - Add function `sendUserCtrlCmd()` to send `LidarUserCtrlCmd` to lidar
+
+## v2.0.10 (2025.03.10)
+- Solve the bug of not displaying 2D LaserScan msg, 
+- the default frame of 2D scan is changed to `unilidar_laserscan`

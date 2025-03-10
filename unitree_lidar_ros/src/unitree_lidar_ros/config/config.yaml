@@ -30,5 +30,5 @@ imu_frame: "unilidar_imu"      # default: "unilidar_imu"
 imu_topic: "unilidar/imu"      # default: "unilidar/imu"
 
 # 2d Laser Scan
-laserscan_frame: "unilidar_lidar"
+laserscan_frame: "unilidar_laserscan"  # default: "unilidar_laserscan
 laserscan_topic: "unilidar/laserscan"

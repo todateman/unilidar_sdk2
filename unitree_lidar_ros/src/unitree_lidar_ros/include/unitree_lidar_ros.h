@@ -133,6 +133,7 @@ public:
         lsdk_ = createUnitreeLidarReader();
 
         std::cout << "initialize_type_ = " << initialize_type_ << std::endl;
+        std::cout << "work_mode_ = " << work_mode_ << std::endl;
 
         if (initialize_type_ == 1)
         {
@@ -210,6 +211,7 @@ public:
         }
         else if (result == LIDAR_POINT_DATA_PACKET_TYPE)
         {
+            // std::cout << "LIDAR_POINT_DATA_PACKET_TYPE" << std::endl;
             PointCloudUnitree cloud;
             if (lsdk_->getPointCloud(cloud))
             {
@@ -221,6 +223,7 @@ public:
         }
         else if (result == LIDAR_2D_POINT_DATA_PACKET_TYPE)
         {
+            // std::cout << "LIDAR_2D_POINT_DATA_PACKET_TYPE" << std::endl;
             Lidar2DPointDataPacket packet = lsdk_->getLidar2DPointDataPacket();
             Lidar2DPointData &data = packet.data;
 
@@ -229,13 +232,22 @@ public:
             scan.header.frame_id = laserscan_frame_;
             scan.angle_min = data.angle_min;
             scan.angle_max = data.angle_min + data.angle_increment * data.point_num;
-            scan.angle_increment = data.angle_increment / 180.0 * M_PI;
+            scan.angle_increment = data.angle_increment;
             scan.time_increment = data.time_increment;
             scan.range_min = 0.0;
             scan.range_max = 100.0;
             scan.ranges.resize(data.point_num);
             scan.intensities.resize(data.point_num);
 
+            // std::cout << "data.point_num = " << data.point_num 
+            //         << ", data.angle_min = " << data.angle_min
+            //         << ", scan.angle_max = " << scan.angle_max
+            //         << ", data.angle_increment = " << data.angle_increment
+            //         << ", data.time_increment = " << data.time_increment
+            //         << ", data.range_min = " << data.range_min
+            //         << ", data.range_max = " << data.range_max
+            //         << std::endl;
+            
             int countValid = 0;
             for (unsigned int i = 0; i < data.point_num; ++i)
             {
