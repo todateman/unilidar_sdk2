@@ -1,0 +1,181 @@
+# ROS2 and Colcon build files
+build/
+install/
+log/
+*.egg-info/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# C++ build artifacts
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+.eggs/
+lib/
+lib64/
+
+# Docker
+.env
+.dockerignore
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS generated files
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+# ROS specific
+devel/
+.catkin_workspace
+.rosinstall
+.rosinstall.yaml
+
+# PCL and OpenCV cache
+*.pcd
+*.ply
+
+# Backup files
+*~
+*.backup
+*.orig
+
+# Temporary directories
+tmp/
+temp/
+cache/
+
+# User-specific config files
+config/user_*
+.env.local
+
+# Documentation build
+docs/_build/
+site/
+
+# Test coverage
+coverage/
+*.coverage
+htmlcov/
+
+# Package manager
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archives
+*.tar.gz
+*.zip
+*.7z
+*.rar
+
+# System files (Linux)
+.directory
+.Trash-*
+
+# System files (macOS)
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# System files (Windows)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Vim
+*.swp
+*.swo
+*.swn
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Eclipse
+.project
+.metadata
+.classpath
+.settings/
+
+# NetBeans
+nbproject/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Custom additions for this project
+# Ignore compiled binaries
+bin/
+unitree_lidar_sdk/bin/
+unitree_lidar_sdk/build/
+
+# Ignore generated config files
+config/generated_*
+
+# Ignore screenshot files (if any)
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Ignore temporary ROS files
+*.bag
+*.db3
+
+# Ignore any custom environment files
+.env.*
+!.env.example

@@ -1,0 +1,30 @@
+# Unitree LiDAR ROS2 Parameters Configuration
+# This file contains the parameters for the Unitree LiDAR ROS2 node
+
+unitre_lidar_sdk_node:
+  ros__parameters:
+    # Connection Settings
+    initialize_type: 1          # 1: Serial, 2: UDP
+    work_mode: 8               # LiDAR work mode
+    
+    # Serial Connection Parameters (for L2 serial mode)
+    serial_port: "/dev/ttyACM0"
+    baudrate: 4000000
+    
+    # UDP Connection Parameters (not used in serial mode but kept for reference)
+    lidar_port: 6101
+    lidar_ip: "192.168.1.2"
+    local_port: 6203
+    local_ip: "192.168.1.62"
+    
+    # Point Cloud Settings
+    cloud_scan_num: 18         # Number of scans to accumulate
+    use_system_timestamp: true  # Use system timestamp instead of LiDAR timestamp
+    range_min: 0.0             # Minimum range (meters)
+    range_max: 100.0           # Maximum range (meters)
+    
+    # Topic and Frame Settings
+    cloud_frame: "unilidar_lidar"
+    cloud_topic: "unilidar/cloud"
+    imu_frame: "unilidar_imu"
+    imu_topic: "unilidar/imu"

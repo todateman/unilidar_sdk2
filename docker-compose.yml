@@ -1,0 +1,86 @@
+services:
+  unitree_lidar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: unitree_lidar_ros2
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - SERIAL_DEVICE=/dev/ttyACM0
+      - BAUDRATE=4000000
+      - ROS_DOMAIN_ID=0
+    volumes:
+      # X11 forwarding for RViz
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/root/.Xauthority:rw
+      # Serial device access
+      - /dev:/dev
+      # Optional: Mount config directory for parameter changes
+      - ./config:/workspace/config:rw
+    devices:
+      # Serial device access (alternative to privileged mode)
+      - /dev/ttyACM0:/dev/ttyACM0
+      # Add other common serial devices
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1
+    ports:
+      - "8765:8765"    # Foxglove WebSocket port
+      - "9090:9090"    # ROS Bridge WebSocket port
+    restart: unless-stopped
+    networks:
+      - lidar_network
+    command: >
+      bash -c "
+        echo 'Starting Unitree LiDAR ROS2 node with serial connection...'
+        ros2 launch unitree_lidar_ros2 launch.py &
+        
+        echo 'Waiting for LiDAR to initialize...'
+        sleep 10
+        
+        echo 'Starting Foxglove Bridge...'
+        ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 &
+        
+        echo 'Starting ROS Bridge...'
+        ros2 launch rosbridge_server rosbridge_websocket_launch.xml port:=9090 &
+        
+        wait
+      "
+
+  # Foxglove Bridge Service (DISABLED - running in main container)
+  # foxglove_bridge:
+  #   profiles: ["disabled"]
+  
+  # ROS Bridge Service (DISABLED - running in main container)  
+  # ros_bridge:
+  #   profiles: ["disabled"]
+
+  # Optional: RViz only service (if you want to run RViz separately)
+  rviz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: unitree_lidar_rviz
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/root/.Xauthority:rw
+    networks:
+      - lidar_network
+    depends_on:
+      - unitree_lidar
+    profiles:
+      - rviz-only
+    command: >
+      bash -c "
+        sleep 5
+        ros2 run rviz2 rviz2 -d /workspace/unilidar_sdk2/unitree_lidar_ros2/src/unitree_lidar_ros2/rviz/view.rviz
+      "
+
+networks:
+  lidar_network:
+    driver: bridge

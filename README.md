@@ -12,6 +12,7 @@ We provide several common interfaces for the LiDAR:
 - The original C++ based SDK: [unitree_lidar_sdk](./unitree_lidar_sdk/README.md)
 - The package for parsing and publishing LiDAR data in the ROS environment: [unitree_lidar_ros](./unitree_lidar_ros/src/unitree_lidar_ros/README.md)
 - The package for parsing and publishing LiDAR data in the ROS2 environment: [unitree_lidar_ros2](./unitree_lidar_ros2/src/unitree_lidar_ros2/README.md)
+- **Docker setup with network bridges for remote access**: [README_DOCKER.md](./README_DOCKER.md) | [日本語版](./README_DOCKER_JP.md)
 
 ## 2. Coordinate System Definition
 

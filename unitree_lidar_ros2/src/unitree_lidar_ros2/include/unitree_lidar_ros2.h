@@ -148,6 +148,15 @@ UnitreeLidarSDKNode::UnitreeLidarSDKNode(const rclcpp::NodeOptions &options)
 
     lsdk_->setLidarWorkMode(work_mode_);
 
+    // シリアル通信用の追加初期化処理
+    if (initialize_type_ == 1) {  // シリアルモードのみ
+        lsdk_->startLidarRotation();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    
+        lsdk_->resetLidar();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+
     // ROS2
     broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*this);
     pub_cloud_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(cloud_topic_, 10);
