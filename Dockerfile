@@ -75,6 +75,12 @@ exec "$@"' > /entrypoint.sh && chmod +x /entrypoint.sh
 ENV SERIAL_DEVICE=/dev/ttyACM0
 ENV BAUDRATE=4000000
 
+# FastDDS network configuration for cross-host communication
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ENV FASTRTPS_DEFAULT_PROFILES_FILE=
+ENV ROS_LOCALHOST_ONLY=0
+ENV ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command

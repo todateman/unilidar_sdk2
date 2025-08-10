@@ -143,6 +143,26 @@ cp .env.example .env
 - **プロトコル**: ROSBridge WebSocketプロトコル
 - **使用方法**: ROSBridge互換クライアントをWebSocketエンドポイントに接続
 
+### 選択的TOPIC送信
+
+FastDDSで大きな点群データを送信する際の制限を回避するため、選択的TOPIC送信機能を追加しました:
+
+```bash
+# 軽量データのみをネットワーク送信（推奨）
+docker compose run --rm unitree_lidar ros2 launch unitree_lidar_ros2 launch.py \
+  enable_cloud:=false \
+  enable_imu:=true \
+  enable_rviz:=false
+
+# 全データを有効化（ローカル用）
+docker compose run --rm unitree_lidar ros2 launch unitree_lidar_ros2 launch.py \
+  enable_cloud:=true \
+  enable_imu:=true \
+  enable_rviz:=true
+```
+
+詳細な使用方法は `SELECTIVE_TOPIC_PUBLISHING.md` を参照してください。
+
 ### 他のマシンからのアクセス
 
 1. ホストマシンのIPアドレスを確認: `./scripts/network-info.sh`
@@ -242,4 +262,6 @@ cp .env.example .env
 ✅ **点群可視化** - リアルタイム3D点群データ  
 ✅ **IMUデータ** - クォータニオン姿勢を含む6軸IMUデータ  
 ✅ **TF配信** - 適切な座標フレーム変換  
-✅ **Docker コンテナ化** - 簡単なデプロイメントと一貫した環境
+✅ **Docker コンテナ化** - 簡単なデプロイメントと一貫した環境  
+✅ **選択的TOPIC送信** - ネットワーク負荷を軽減するための軽量データ選択機能  
+✅ **FastDDS最適化** - 大きな点群データ問題の回避
