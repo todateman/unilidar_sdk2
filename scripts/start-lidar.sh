@@ -141,7 +141,7 @@ if [ "$BRIDGES" = false ]; then
     SERVICES="unitree_lidar"
     echo "Starting Unitree LiDAR service only (no bridges)..."
 else
-    echo "Starting Unitree LiDAR services with network bridges..."
+    echo "Starting Unitree LiDAR services (host networking)..."
     echo ""
     echo "Network endpoints will be available at:"
     echo "  Foxglove Bridge: ws://$(hostname -I | awk '{print $1}'):8765"
@@ -157,12 +157,10 @@ if [ "$DETACH" = true ]; then
     echo "Services started in detached mode."
     echo "To view logs, run: $COMPOSE_CMD logs -f"
     echo "To stop services, run: $COMPOSE_CMD down"
-    if [ "$BRIDGES" = true ]; then
-        echo ""
-        echo "Network endpoints:"
-        echo "  Foxglove Bridge: ws://$(hostname -I | awk '{print $1}'):8765"
-        echo "  ROS Bridge:      ws://$(hostname -I | awk '{print $1}'):9090"
-    fi
+    echo ""
+    echo "Network endpoints (host networking):"
+    echo "  Foxglove Bridge: ws://127.0.0.1:8765    (or ws://$(hostname -I | awk '{print $1}'):8765)"
+    echo "  ROS Bridge:      ws://127.0.0.1:9090    (or ws://$(hostname -I | awk '{print $1}'):9090)"    fi
 else
     echo "Press Ctrl+C to stop the services"
     echo ""

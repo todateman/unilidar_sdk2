@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: unitree_lidar_ros2
     privileged: true
     environment:
@@ -25,12 +26,7 @@ services:
       # Add other common serial devices
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyUSB1:/dev/ttyUSB1
-    ports:
-      - "8765:8765"    # Foxglove WebSocket port
-      - "9090:9090"    # ROS Bridge WebSocket port
     restart: unless-stopped
-    networks:
-      - lidar_network
     command: >
       bash -c "
         echo 'Starting Unitree LiDAR ROS2 node with serial connection...'
@@ -47,20 +43,13 @@ services:
         
         wait
       "
+    network_mode: host
 
-  # Foxglove Bridge Service (DISABLED - running in main container)
-  # foxglove_bridge:
-  #   profiles: ["disabled"]
-  
-  # ROS Bridge Service (DISABLED - running in main container)  
-  # ros_bridge:
-  #   profiles: ["disabled"]
-
-  # Optional: RViz only service (if you want to run RViz separately)
   rviz:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: unitree_lidar_rviz
     environment:
       - DISPLAY=${DISPLAY}
@@ -69,8 +58,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ~/.Xauthority:/root/.Xauthority:rw
-    networks:
-      - lidar_network
     depends_on:
       - unitree_lidar
     profiles:
@@ -80,7 +67,4 @@ services:
         sleep 5
         ros2 run rviz2 rviz2 -d /workspace/unilidar_sdk2/unitree_lidar_ros2/src/unitree_lidar_ros2/rviz/view.rviz
       "
-
-networks:
-  lidar_network:
-    driver: bridge
+    network_mode: host
