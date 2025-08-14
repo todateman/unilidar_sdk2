@@ -17,6 +17,9 @@ services:
       # Network discovery configuration
       - ROS_LOCALHOST_ONLY=0
       - ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
+      # User ID for file permissions
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
     volumes:
       # X11 forwarding for RViz
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -25,6 +28,8 @@ services:
       - /dev:/dev
       # Optional: Mount config directory for parameter changes
       - ./config:/workspace/config:rw
+      # ROS bag recording output directory
+      - ${PWD}/bags:/workspace/bags:rw
     devices:
       # Serial device access (alternative to privileged mode)
       - /dev/ttyACM0:/dev/ttyACM0

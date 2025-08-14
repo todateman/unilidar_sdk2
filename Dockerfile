@@ -56,6 +56,11 @@ set -e\n\
 source /opt/ros/${ROS_DISTRO}/setup.bash\n\
 source /workspace/unilidar_sdk2/unitree_lidar_ros2/install/setup.bash\n\
 \n\
+# Fix ownership of bags directory if it exists and USER_ID/GROUP_ID are provided\n\
+if [ -d "/workspace/bags" ] && [ -n "${USER_ID}" ] && [ -n "${GROUP_ID}" ]; then\n\
+    chown -R ${USER_ID}:${GROUP_ID} /workspace/bags 2>/dev/null || true\n\
+fi\n\
+\n\
 # Wait for serial device to be available (only for services that need it)\n\
 if [ -n "${SERIAL_DEVICE}" ] && [ "${SERIAL_DEVICE}" != "" ]; then\n\
     echo "Waiting for serial device ${SERIAL_DEVICE}..."\n\

@@ -176,6 +176,7 @@ screenshots/
 *.gif
 
 # Ignore temporary ROS files
+bags/
 *.bag
 *.db3
 
