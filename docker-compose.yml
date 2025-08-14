@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: unitree_lidar_ros2
     privileged: true
     environment:
@@ -57,19 +58,11 @@ services:
         wait
       "
 
-  # Foxglove Bridge Service (DISABLED - running in main container)
-  # foxglove_bridge:
-  #   profiles: ["disabled"]
-  
-  # ROS Bridge Service (DISABLED - running in main container)  
-  # ros_bridge:
-  #   profiles: ["disabled"]
-
-  # Optional: RViz only service (if you want to run RViz separately)
   rviz:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: unitree_lidar_rviz
     environment:
       - DISPLAY=${DISPLAY}
