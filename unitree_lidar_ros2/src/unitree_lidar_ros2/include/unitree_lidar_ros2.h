@@ -74,6 +74,10 @@ protected:
 
     std::string imu_frame_;
     std::string imu_topic_;
+    
+    // Publishing control flags
+    bool enable_cloud_publish_;
+    bool enable_imu_publish_;
 };
 
 ///////////////////////////////////////////////////////////////////
@@ -102,6 +106,10 @@ UnitreeLidarSDKNode::UnitreeLidarSDKNode(const rclcpp::NodeOptions &options)
 
     declare_parameter<std::string>("imu_frame", "unilidar_imu");
     declare_parameter<std::string>("imu_topic", "unilidar/imu");
+    
+    // Topic publishing control parameters
+    declare_parameter<bool>("enable_cloud_publish", true);
+    declare_parameter<bool>("enable_imu_publish", true);
 
     work_mode_ = get_parameter("work_mode").as_int();
     initialize_type_ = get_parameter("initialize_type").as_int();
@@ -124,6 +132,10 @@ UnitreeLidarSDKNode::UnitreeLidarSDKNode(const rclcpp::NodeOptions &options)
     
     imu_frame_ = get_parameter("imu_frame").as_string();
     imu_topic_ = get_parameter("imu_topic").as_string();
+    
+    // Get publishing control flags
+    enable_cloud_publish_ = get_parameter("enable_cloud_publish").as_bool();
+    enable_imu_publish_ = get_parameter("enable_imu_publish").as_bool();
 
     // Initialize UnitreeLidarReader
     lsdk_ = createUnitreeLidarReader();
@@ -159,8 +171,27 @@ UnitreeLidarSDKNode::UnitreeLidarSDKNode(const rclcpp::NodeOptions &options)
 
     // ROS2
     broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*this);
-    pub_cloud_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(cloud_topic_, 10);
-    pub_imu_ = this->create_publisher<sensor_msgs::msg::Imu>(imu_topic_, 10);
+    
+    // Set QoS for better network performance
+    rclcpp::QoS qos_profile(10);
+    qos_profile.reliability(rclcpp::ReliabilityPolicy::BestEffort);
+    qos_profile.durability(rclcpp::DurabilityPolicy::Volatile);
+    qos_profile.history(rclcpp::HistoryPolicy::KeepLast);
+    
+    // Create publishers only if enabled
+    if (enable_cloud_publish_) {
+        pub_cloud_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(cloud_topic_, qos_profile);
+        RCLCPP_INFO(this->get_logger(), "Point cloud publishing enabled on topic: %s", cloud_topic_.c_str());
+    } else {
+        RCLCPP_INFO(this->get_logger(), "Point cloud publishing disabled");
+    }
+    
+    if (enable_imu_publish_) {
+        pub_imu_ = this->create_publisher<sensor_msgs::msg::Imu>(imu_topic_, qos_profile);
+        RCLCPP_INFO(this->get_logger(), "IMU publishing enabled on topic: %s", imu_topic_.c_str());
+    } else {
+        RCLCPP_INFO(this->get_logger(), "IMU publishing disabled");
+    }
     timer_ = this->create_wall_timer(std::chrono::milliseconds(1), std::bind(&UnitreeLidarSDKNode::timer_callback, this));
 }
 
@@ -198,7 +229,10 @@ void UnitreeLidarSDKNode::timer_callback()
             imuMsg.linear_acceleration.y = imu.linear_acceleration[1];
             imuMsg.linear_acceleration.z = imu.linear_acceleration[2];
 
-            pub_imu_->publish(imuMsg);
+            // Only publish if enabled
+            if (enable_imu_publish_ && pub_imu_) {
+                pub_imu_->publish(imuMsg);
+            }
 
             // publish tf from initial imu to real-time imu
             geometry_msgs::msg::TransformStamped transformStamped;
@@ -244,7 +278,10 @@ void UnitreeLidarSDKNode::timer_callback()
             cloud_msg.header.frame_id = cloud_frame_;
             cloud_msg.header.stamp = timestamp;
 
-            pub_cloud_->publish(cloud_msg);
+            // Only publish if enabled
+            if (enable_cloud_publish_ && pub_cloud_) {
+                pub_cloud_->publish(cloud_msg);
+            }
         }
     }
 }

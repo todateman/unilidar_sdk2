@@ -69,6 +69,54 @@
 
 ブリッジのネットワークエンドポイント情報と接続状況を表示します。
 
+### `./scripts/record-bag.sh`
+
+データ分析と再生のためにROS2 TOPICをbagファイルに記録します:
+
+- `--duration, -d SEC`: 記録時間（秒）
+- `--name, -n NAME`: bagファイル名（デフォルト: 自動生成タイムスタンプ）
+- `--output, -o DIR`: 出力ディレクトリ（デフォルト: /workspace/bags）
+- `--compress, -c`: 圧縮を有効化（zstd形式）
+- `--cloud-only`: 点群とTFデータのみ記録
+- `--imu-only`: IMUとTFデータのみ記録
+- `--all, -a`: 利用可能な全TOPICを記録
+- `--help, -h`: ヘルプメッセージを表示
+
+使用例:
+```bash
+# 基本記録（10秒間）
+./scripts/record-bag.sh --duration 10
+
+# 圧縮とカスタム名で記録
+./scripts/record-bag.sh --duration 30 --compress --name experiment_01
+
+# 点群データのみ記録
+./scripts/record-bag.sh --cloud-only --duration 60
+
+# 軽量IMUデータのみ記録
+./scripts/record-bag.sh --imu-only --duration 120
+```
+
+### `./scripts/copy-bags.sh`
+
+記録されたbagファイルをコンテナからローカルホストにコピーします:
+
+- `--list, -l`: コンテナ内の利用可能なbag一覧表示
+- `--bag, -b NAME`: 指定bagを名前でコピー
+- `--help, -h`: ヘルプメッセージを表示
+
+使用例:
+```bash
+# 利用可能な全bag一覧表示
+./scripts/copy-bags.sh --list
+
+# 特定bagをローカルディレクトリにコピー
+./scripts/copy-bags.sh --bag experiment_01
+
+# 全bagをローカルディレクトリにコピー
+./scripts/copy-bags.sh
+```
+
 ## 手動でのDockerコマンド
 
 Docker Composeを直接使用したい場合:
@@ -143,6 +191,26 @@ cp .env.example .env
 - **プロトコル**: ROSBridge WebSocketプロトコル
 - **使用方法**: ROSBridge互換クライアントをWebSocketエンドポイントに接続
 
+### 選択的TOPIC送信
+
+FastDDSで大きな点群データを送信する際の制限を回避するため、選択的TOPIC送信機能を追加しました:
+
+```bash
+# 軽量データのみをネットワーク送信（推奨）
+docker compose run --rm unitree_lidar ros2 launch unitree_lidar_ros2 launch.py \
+  enable_cloud:=false \
+  enable_imu:=true \
+  enable_rviz:=false
+
+# 全データを有効化（ローカル用）
+docker compose run --rm unitree_lidar ros2 launch unitree_lidar_ros2 launch.py \
+  enable_cloud:=true \
+  enable_imu:=true \
+  enable_rviz:=true
+```
+
+詳細な使用方法は `SELECTIVE_TOPIC_PUBLISHING.md` を参照してください。
+
 ### 他のマシンからのアクセス
 
 1. ホストマシンのIPアドレスを確認: `./scripts/network-info.sh`
@@ -177,6 +245,73 @@ cp .env.example .env
 6. トピックが購読可能になります
 
 **注意**: 両方の接続方法は同じROS2トピックへのアクセスを提供しますが、パフォーマンス特性が異なる場合があります。Foxglove WebSocketはFoxglove Studio用に最適化されており、ROS Bridgeはより広い互換性を提供します。
+
+## データ記録と分析
+
+### ROS2 Bagファイルの記録
+
+システムには、後の分析と再生のためにLiDARデータをROS2 bagファイルに記録する便利なスクリプトが提供されています。
+
+#### 基本的な記録ワークフロー
+
+1. **LiDARサービスを開始:**
+   ```bash
+   ./scripts/start-lidar.sh --detach
+   ```
+
+2. **データを記録:**
+   ```bash
+   # 60秒間記録（自動タイムスタンプファイル名）
+   ./scripts/record-bag.sh --duration 60
+   
+   # カスタム名と圧縮で記録
+   ./scripts/record-bag.sh --duration 120 --name "outdoor_test_01" --compress
+   ```
+
+3. **ローカルストレージにコピー:**
+   ```bash
+   # 利用可能な記録一覧
+   ./scripts/copy-bags.sh --list
+   
+   # 特定の記録をローカル./bags/ディレクトリにコピー
+   ./scripts/copy-bags.sh --bag outdoor_test_01
+   ```
+
+#### 記録オプション
+
+- **完全記録**: 点群、IMU、TFデータを含む全TOPIC
+- **点群のみ**: `--cloud-only` で点群と座標フレームデータ
+- **IMUのみ**: `--imu-only` で軽量モーションデータ収集
+- **圧縮**: `--compress` でファイルサイズを約60-70%削減
+
+#### データ保存場所
+
+- **コンテナ内**: `/workspace/bags/[bag_name]/`
+- **ローカル**: `./bags/[bag_name]/` （コピー後）
+
+#### ファイルサイズの目安
+
+| 時間 | 非圧縮 | 圧縮後 | 内容 |
+|------|--------|--------|------|
+| 10秒 | ~280MB | ~100MB | 全データ（点群+IMU+TF） |
+| 30秒 | ~840MB | ~300MB | 全データ |
+| 60秒 | ~1.7GB | ~600MB | 全データ |
+| 60秒 | ~20MB | ~8MB | IMUのみ |
+
+#### Bagファイルの再生
+
+記録データの再生方法:
+
+```bash
+# ローカルディレクトリから
+ros2 bag play ./bags/outdoor_test_01
+
+# コンテナから（ローカルにコピーしていない場合）
+docker compose exec unitree_lidar bash -c "
+  source /opt/ros/humble/setup.bash && 
+  ros2 bag play /workspace/bags/outdoor_test_01
+"
+```
 
 ## トラブルシューティング
 
@@ -242,4 +377,8 @@ cp .env.example .env
 ✅ **点群可視化** - リアルタイム3D点群データ  
 ✅ **IMUデータ** - クォータニオン姿勢を含む6軸IMUデータ  
 ✅ **TF配信** - 適切な座標フレーム変換  
-✅ **Docker コンテナ化** - 簡単なデプロイメントと一貫した環境
+✅ **Docker コンテナ化** - 簡単なデプロイメントと一貫した環境  
+✅ **選択的TOPIC送信** - ネットワーク負荷を軽減するための軽量データ選択機能  
+✅ **FastDDS最適化** - 大きな点群データ問題の回避  
+✅ **データ記録** - 自動圧縮とローカル保存機能付きROS2 bag記録  
+✅ **分析ワークフロー** - データ収集から再生まで完全サポート

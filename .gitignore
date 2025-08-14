@@ -1,3 +1,6 @@
+# git
+!.gitignore
+
 # ROS2 and Colcon build files
 build/
 install/
@@ -173,6 +176,7 @@ screenshots/
 *.gif
 
 # Ignore temporary ROS files
+bags/
 *.bag
 *.db3
 

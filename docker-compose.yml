@@ -11,6 +11,15 @@ services:
       - SERIAL_DEVICE=/dev/ttyACM0
       - BAUDRATE=4000000
       - ROS_DOMAIN_ID=0
+      # FastDDS network configuration for cross-host communication
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=
+      # Network discovery configuration
+      - ROS_LOCALHOST_ONLY=0
+      - ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
+      # User ID for file permissions
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
     volumes:
       # X11 forwarding for RViz
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -19,25 +28,25 @@ services:
       - /dev:/dev
       # Optional: Mount config directory for parameter changes
       - ./config:/workspace/config:rw
+      # ROS bag recording output directory
+      - ${PWD}/bags:/workspace/bags:rw
     devices:
       # Serial device access (alternative to privileged mode)
       - /dev/ttyACM0:/dev/ttyACM0
       # Add other common serial devices
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyUSB1:/dev/ttyUSB1
-    ports:
-      - "8765:8765"    # Foxglove WebSocket port
-      - "9090:9090"    # ROS Bridge WebSocket port
+    network_mode: host  # Use host networking for DDS communication
     restart: unless-stopped
-    networks:
-      - lidar_network
     command: >
       bash -c "
-        echo 'Starting Unitree LiDAR ROS2 node with serial connection...'
-        ros2 launch unitree_lidar_ros2 launch.py &
+        echo 'Starting Unitree LiDAR ROS2 services...'
+        ros2 launch unitree_lidar_ros2 launch.py enable_lidar:=${ENABLE_LIDAR:-true} enable_rviz:=${ENABLE_RVIZ:-true} &
         
-        echo 'Waiting for LiDAR to initialize...'
-        sleep 10
+        if [ '${ENABLE_LIDAR:-true}' = 'true' ]; then
+          echo 'Waiting for LiDAR to initialize...'
+          sleep 10
+        fi
         
         echo 'Starting Foxglove Bridge...'
         ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8765 &
@@ -66,11 +75,16 @@ services:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - ROS_DOMAIN_ID=0
+      # FastDDS network configuration for cross-host communication
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=
+      # Network discovery configuration
+      - ROS_LOCALHOST_ONLY=0
+      - ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ~/.Xauthority:/root/.Xauthority:rw
-    networks:
-      - lidar_network
+    network_mode: host  # Use host networking for DDS communication
     depends_on:
       - unitree_lidar
     profiles:
@@ -81,6 +95,4 @@ services:
         ros2 run rviz2 rviz2 -d /workspace/unilidar_sdk2/unitree_lidar_ros2/src/unitree_lidar_ros2/rviz/view.rviz
       "
 
-networks:
-  lidar_network:
-    driver: bridge
+# Host networking used - no custom networks needed

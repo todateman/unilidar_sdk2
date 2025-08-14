@@ -119,10 +119,15 @@ detect_serial_device
 # Set up X11
 setup_x11
 
-# Prepare Docker Compose command
-COMPOSE_CMD="docker-compose"
-if ! command -v docker-compose > /dev/null 2>&1; then
-    COMPOSE_CMD="docker compose"
+# Prepare Docker Compose command - prefer newer docker compose
+COMPOSE_CMD="docker compose"
+if ! docker compose version > /dev/null 2>&1; then
+    if command -v docker-compose > /dev/null 2>&1; then
+        COMPOSE_CMD="docker-compose"
+    else
+        echo "Error: Neither 'docker compose' nor 'docker-compose' is available."
+        exit 1
+    fi
 fi
 
 COMPOSE_ARGS=""
